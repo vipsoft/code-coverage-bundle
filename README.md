@@ -1,14 +1,10 @@
 # CodeCoverage
 
-Code coverage (Behat) extension and (Symfony 2) bundle.
-
-## Documentation
-
-[Official documentation](http://extensions.behat.org/code-coverage/)
+Code coverage (Symfony 2) bundle for remote coverage collection.
 
 ## Source
 
-[Github](https://github.com/vipsoft/code-coverage)
+[Github](https://github.com/vipsoft/code-coverage-bundle)
 
 ## Copyright
 
@@ -17,5 +13,4 @@ Copyright (c) 2013 Anthon Pang. See LICENSE for details.
 ## Credits
 
 * Anthon Pang [robocoder](http://github.com/robocoder)
-* Konstantin Kudryashov [everzet](http://github.com/everzet) - init.php and build.php
 * [Others](https://github.com/vipsoft/code-coverage/graphs/contributors)
