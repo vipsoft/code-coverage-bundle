@@ -11,7 +11,9 @@
     <services>
         <service id="vipsoft.code_coverage.service.repository" class="%vipsoft.code_coverage.service.repository.class%" />
 
-        <service id="vipsoft.code_coverage.controller.code_coverage" class="%vipsoft.code_coverage.controller.code_coverage.class%" />
+        <service id="vipsoft.code_coverage.controller.code_coverage" class="%vipsoft.code_coverage.controller.code_coverage.class%">
+            <argument type="service" id="vipsoft.code_coverage.service.repository" />
+        </service>
     </services>
 
 </container>

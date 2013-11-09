@@ -39,7 +39,10 @@ class CodeCoverageController
      */
     public function createAction()
     {
-        if ( ! ini_get('xdebug.coverage_enable')) {
+        // this setting wasn't introduced until Xdebug 2.2
+        $ini = ini_get_all('xdebug', false);
+
+        if (isset($ini['xdebug.coverage_enable']) && ! $ini['xdebug.coverage_enable']) {
             return new Response('', 503); // Service Unavailable
         }
 

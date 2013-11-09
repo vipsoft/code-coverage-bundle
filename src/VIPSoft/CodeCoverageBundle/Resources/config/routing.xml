@@ -4,17 +4,17 @@
        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="VIPSoft_CodeCoverageBundle_CodeCoverage_Create" pattern="/">
-       <default key="_controller">VIPSoftCodeCoverageBundle:CodeCoverage:create</default>
+       <default key="_controller">vipsoft.code_coverage.controller.code_coverage:createAction</default>
        <requirement key="_method">POST</requirement>
     </route>
 
     <route id="VIPSoft_CodeCoverageBundle_CodeCoverage_Read" pattern="/">
-       <default key="_controller">VIPSoftCodeCoverageBundle:CodeCoverage:read</default>
+       <default key="_controller">vipsoft.code_coverage.controller.code_coverage:readAction</default>
        <requirement key="_method">GET</requirement>
     </route>
 
     <route id="VIPSoft_CodeCoverageBundle_CodeCoverage_Delete" pattern="/">
-       <default key="_controller">VIPSoftCodeCoverageBundle:CodeCoverage:delete</default>
+       <default key="_controller">vipsoft.code_coverage.controller.code_coverage:deleteAction</default>
        <requirement key="_method">DELETE</requirement>
     </route>
 

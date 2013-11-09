@@ -14,13 +14,13 @@ use VIPSoft\TestCase;
 /**
  * @group Functional
  */
-class CodeCoverageExtensionTest extends TestCase
+class VIPSoftCodeCoverageExtensionTest extends TestCase
 {
     public function testLoad()
     {
         $container = new ContainerBuilder();
 
-        $extension = new CodeCoverageExtension();
+        $extension = new VIPSoftCodeCoverageExtension();
         $extension->load(array(), $container);
 
         $parameters = $container->getParameterBag()->all();

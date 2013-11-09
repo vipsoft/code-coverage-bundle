@@ -33,7 +33,7 @@ class CodeCoverageRepository
      * @param string $databaseFile
      * @param string $sqlite
      */
-    public function __construct($databaseFile = null, $sqliteClassName = '\\SQLite')
+    public function __construct($databaseFile = null, $sqliteClassName = '\SQLite3')
     {
         $this->databaseFile    = $databaseFile ?: __DIR__ . '/../Resources/private/coverage.dbf';
         $this->sqliteClassName = $sqliteClassName;
@@ -89,8 +89,17 @@ class CodeCoverageRepository
     public function getCoverage()
     {
         $aggregate = new Aggregate();
+        $resultSet = array();
         $sqlite    = $this->newSQLiteInstance();
-        $resultSet = $sqlite->query_array('SELECT class, counts FROM coverage');
+        $result    = @$sqlite->query('SELECT class, counts FROM coverage');
+
+        if ( ! $result) {
+            return array();
+        }
+
+        while ($res = $result->fetchArray(SQLITE3_ASSOC)) {
+            $resultSet[] = $res;
+        }
 
         if ($resultSet !== false) {
             foreach ($resultSet as $result) {
@@ -115,6 +124,12 @@ class CodeCoverageRepository
 
     private function newSQLiteInstance()
     {
-        return new $this->sqliteClassName($this->databaseFile);
+        $instance = new $this->sqliteClassName($this->databaseFile);
+
+        if ( ! $instance) {
+            throw new \Exception('unable to create database');
+        }
+
+        return $instance;
     }
 }
