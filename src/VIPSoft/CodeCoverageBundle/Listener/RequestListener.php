@@ -33,7 +33,7 @@ class RequestListener
     {
         $this->repository = $repository;
     }
-     
+
     /**
      * Start collecting at the beginning of a request
      *
