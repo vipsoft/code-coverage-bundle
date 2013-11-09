@@ -126,10 +126,6 @@ class CodeCoverageRepository
     {
         $instance = new $this->sqliteClassName($this->databaseFile);
 
-        if ( ! $instance) {
-            throw new \Exception('unable to create database');
-        }
-
         return $instance;
     }
 }

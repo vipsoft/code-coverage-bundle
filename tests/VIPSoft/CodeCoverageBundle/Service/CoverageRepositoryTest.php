@@ -22,10 +22,10 @@ class CodeCoverageRepositoryTest extends TestCase
 
     public function __construct()
     {
-        if ( ! class_exists('VIPSoft\CodeCoverageBundle\Test\SQLite')) {
+        if ( ! class_exists('VIPSoft\CodeCoverageBundle\Test\SQLite3')) {
             eval(<<<END_OF_SQLITE
 namespace VIPSoft\CodeCoverageBundle\Test {
-    class SQLite
+    class SQLite3
     {
         static public \$proxiedMethods;
 
@@ -41,7 +41,7 @@ END_OF_SQLITE
             );
         }
 
-        $this->sqlite = 'VIPSoft\CodeCoverageBundle\Test\SQLite';
+        $this->sqlite = 'VIPSoft\CodeCoverageBundle\Test\SQLite3';
     }
 
     protected function setUp()
@@ -57,14 +57,14 @@ END_OF_SQLITE
     {
         parent::tearDown();
 
-        \VIPSoft\CodeCoverageBundle\Test\SQLite::$proxiedMethods = array();
+        \VIPSoft\CodeCoverageBundle\Test\SQLite3::$proxiedMethods = array();
     }
 
     public function testInitialize()
     {
         $this->getMockFunction('file_exists', function () { return false; });
 
-        \VIPSoft\CodeCoverageBundle\Test\SQLite::$proxiedMethods['exec'] = function () { return null; };
+        \VIPSoft\CodeCoverageBundle\Test\SQLite3::$proxiedMethods['exec'] = function () { return null; };
 
         $repository = new CodeCoverageRepository($this->databaseFile, $this->sqlite);
 
@@ -96,7 +96,7 @@ END_OF_SQLITE
               ->method('invokeFunction')
               ->with("INSERT INTO coverage (class, counts) VALUES ('test', '{\"1\":1}')");
 
-        \VIPSoft\CodeCoverageBundle\Test\SQLite::$proxiedMethods['exec'] = array($proxy, 'invokeFunction');
+        \VIPSoft\CodeCoverageBundle\Test\SQLite3::$proxiedMethods['exec'] = array($proxy, 'invokeFunction');
 
         $repository = new CodeCoverageRepository($this->databaseFile, $this->sqlite);
         $repository->addCoverage($coverage);
@@ -106,15 +106,35 @@ END_OF_SQLITE
     {
         $coverage = array('test' => array(1 => 1));
 
-        \VIPSoft\CodeCoverageBundle\Test\SQLite::$proxiedMethods['query_array'] = function () {
-            return array(
-                array('class' => 'test', 'counts' => '{"1":1}'),
-            );
+        $resultMock = $this->getMockBuilder('SQLite3Result')
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
+        $resultMock->expects($this->any())
+                   ->method('fetchArray')
+                   ->will($this->onConsecutiveCalls(
+                        array('class' => 'test', 'counts' => '{"1":1}'),
+                        false
+                   ));
+
+        \VIPSoft\CodeCoverageBundle\Test\SQLite3::$proxiedMethods['query'] = function () use ($resultMock) {
+            return $resultMock;
         };
 
         $repository = new CodeCoverageRepository($this->databaseFile, $this->sqlite);
 
         $this->assertEquals($coverage, $repository->getCoverage());
+    }
+
+    public function testGetCoverageWhenTableNotCreated()
+    {
+        \VIPSoft\CodeCoverageBundle\Test\SQLite3::$proxiedMethods['query'] = function () {
+            return false;
+        };
+
+        $repository = new CodeCoverageRepository($this->databaseFile, $this->sqlite);
+
+        $this->assertEquals(array(), $repository->getCoverage());
     }
 
     public function testDropWhenFileExists()
