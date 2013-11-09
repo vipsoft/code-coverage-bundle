@@ -54,9 +54,9 @@ class RequestListener
         xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);
 
         register_shutdown_function(function () use ($repository) {
-            xdebug_stop_code_coverage(true);
-
             $coverage = xdebug_get_code_coverage();
+
+            xdebug_stop_code_coverage(true);
 
             $repository->addCoverage($coverage);
         });
