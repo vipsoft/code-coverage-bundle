@@ -12,7 +12,7 @@ Designed for use with the Behat code coverage extension.
 
 ## See Also
 
-[Github](https://github.com/vipsoft/code-coverage-extension)
+[Code Coverage Extension](https://github.com/vipsoft/code-coverage-extension)
 
 ## Copyright
 
