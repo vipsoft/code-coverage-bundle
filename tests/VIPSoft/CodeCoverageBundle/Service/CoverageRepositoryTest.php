@@ -64,9 +64,13 @@ END_OF_SQLITE
 
     public function testInitialize()
     {
-        $this->getMockFunction('file_exists', function () { return false; });
+        $this->getMockFunction('file_exists', function () {
+            return false;
+        });
 
-        \VIPSoft\CodeCoverageBundle\Test\SQLite3::$proxiedMethods['exec'] = function () { return null; };
+        \VIPSoft\CodeCoverageBundle\Test\SQLite3::$proxiedMethods['exec'] = function () {
+            return null;
+        };
 
         $repository = new CodeCoverageRepository($this->databaseFile, $this->sqlite);
 

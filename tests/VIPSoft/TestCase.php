@@ -88,7 +88,9 @@ END_OF_FUNCTION_MOCK
         }
 
         if (is_null($function) || is_scalar($function)) {
-            $function = function () use ($function) { return $function; };
+            $function = function () use ($function) {
+                return $function;
+            };
         } elseif (is_object($function) && preg_match('/^Mock_FunctionProxy_[0-9a-f]+$/', get_class($function))) {
             $function = array($function, 'invokeFunction');
         }
@@ -98,6 +100,8 @@ END_OF_FUNCTION_MOCK
 
     /**
      * Invoke function
+     *
+     * @return mixed
      */
     static public function invokeFunction()
     {
