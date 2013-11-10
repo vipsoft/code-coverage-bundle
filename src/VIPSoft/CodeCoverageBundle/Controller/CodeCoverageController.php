@@ -23,7 +23,7 @@ class CodeCoverageController
     private $repository;
 
     /**
-     * Constructor.
+     * Constructor
      *
      * @param \VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository $repository
      */
@@ -33,7 +33,7 @@ class CodeCoverageController
     }
 
     /**
-     * Start code coverage.
+     * Start code coverage
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */

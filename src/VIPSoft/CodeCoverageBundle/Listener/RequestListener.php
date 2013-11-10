@@ -37,7 +37,7 @@ class RequestListener
     /**
      * Start collecting at the beginning of a request
      *
-     * @parma \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
      */
     public function onKernelRequest(GetResponseEvent $event)
     {

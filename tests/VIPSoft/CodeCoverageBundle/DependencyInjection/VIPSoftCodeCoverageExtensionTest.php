@@ -12,6 +12,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use VIPSoft\TestCase;
 
 /**
+ * Bundle configuration test
+ *
  * @group Functional
  */
 class VIPSoftCodeCoverageExtensionTest extends TestCase

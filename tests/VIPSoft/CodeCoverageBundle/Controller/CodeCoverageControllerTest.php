@@ -11,13 +11,17 @@ namespace VIPSoft\CodeCoverageBundle\Controller;
 use VIPSoft\TestCase;
 
 /**
+ * Controller test
+ *
  * @group Unit
  */
 class CodeCoverageControllerTest extends TestCase
 {
     public function testCreateActionWhenXdebugDisabled()
     {
-        $this->getMockFunction('ini_get_all', function () { return array('xdebug.coverage_enable' => 0); });
+        $this->getMockFunction('ini_get_all', function () {
+            return array('xdebug.coverage_enable' => 0);
+        });
 
         $repository = $this->getMock('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository');
 
@@ -30,7 +34,9 @@ class CodeCoverageControllerTest extends TestCase
 
     public function testCreateActionWhenRepositoryFails()
     {
-        $this->getMockFunction('ini_get_all', function () { return true; });
+        $this->getMockFunction('ini_get_all', function () {
+            return true;
+        });
 
         $repository = $this->getMock('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository');
         $repository->expects($this->once())
@@ -46,7 +52,9 @@ class CodeCoverageControllerTest extends TestCase
 
     public function testCreateAction()
     {
-        $this->getMockFunction('ini_get_all', function () { return true; });
+        $this->getMockFunction('ini_get_all', function () {
+            return true;
+        });
 
         $repository = $this->getMock('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository');
         $repository->expects($this->once())

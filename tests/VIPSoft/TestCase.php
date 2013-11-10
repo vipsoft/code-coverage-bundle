@@ -20,6 +20,9 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     static public $proxiedFunctions;
 
+    /**
+     * {@inheritdoc}
+     */
     protected function setUp()
     {
         parent::setUp();

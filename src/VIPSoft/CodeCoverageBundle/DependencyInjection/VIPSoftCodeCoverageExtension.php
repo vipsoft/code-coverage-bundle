@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
- * Load/manage bundle configuration.
+ * Load/manage bundle configuration
  *
  * @author Anthon Pang <apang@softwaredevelopment.ca>
  */

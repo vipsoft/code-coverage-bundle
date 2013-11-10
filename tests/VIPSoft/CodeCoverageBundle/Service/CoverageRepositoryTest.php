@@ -12,6 +12,8 @@ use VIPSoft\TestCase;
 use org\bovigo\vfs\vfsStream;
 
 /**
+ * Repository test
+ *
  * @group Unit
  */
 class CodeCoverageRepositoryTest extends TestCase
@@ -113,8 +115,8 @@ END_OF_SQLITE
         $resultMock->expects($this->any())
                    ->method('fetchArray')
                    ->will($this->onConsecutiveCalls(
-                        array('class' => 'test', 'counts' => '{"1":1}'),
-                        false
+                       array('class' => 'test', 'counts' => '{"1":1}'),
+                       false
                    ));
 
         \VIPSoft\CodeCoverageBundle\Test\SQLite3::$proxiedMethods['query'] = function () use ($resultMock) {

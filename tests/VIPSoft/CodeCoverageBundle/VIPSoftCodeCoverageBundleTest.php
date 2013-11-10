@@ -1,6 +1,6 @@
 <?php
 /**
- * Code Coverage Controller
+ * Code Coverage Bundle
  *
  * @copyright 2013 Anthon Pang
  * @license BSD-2-Clause
@@ -11,6 +11,8 @@ namespace VIPSoft\CodeCoverageBundle;
 use VIPSoft\TestCase;
 
 /**
+ * Bundle test
+ *
  * @group Unit
  */
 class VIPSoftCodeCoverageBundleTest extends TestCase

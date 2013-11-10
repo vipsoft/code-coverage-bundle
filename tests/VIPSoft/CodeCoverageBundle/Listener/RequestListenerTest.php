@@ -13,6 +13,8 @@ use org\bovigo\vfs\vfsStream;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
+ * Listener test
+ *
  * @group Unit
  */
 class RequestListenerTest extends TestCase
@@ -66,7 +68,9 @@ class RequestListenerTest extends TestCase
     {
         $this->getMockFunction('xdebug_start_code_coverage');
         $this->getMockFunction('xdebug_stop_code_coverage');
-        $this->getMockFunction('xdebug_get_code_coverage', function () { return array(); });
+        $this->getMockFunction('xdebug_get_code_coverage', function () {
+            return array();
+        });
         $this->getMockFunction('register_shutdown_function', function ($closure) {
             call_user_func($closure);
         });

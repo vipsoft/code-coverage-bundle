@@ -1,6 +1,6 @@
 <?php
 /**
- * Code Coverage Aggergator
+ * Code Coverage Aggregator
  *
  * @copyright 2013 Anthon Pang
  * @license BSD-2-Clause
@@ -11,6 +11,8 @@ namespace VIPSoft\CodeCoverageBundle\Model;
 use VIPSoft\TestCase;
 
 /**
+ * Aggregator test
+ *
  * @group Unit
  */
 class AggregateTest extends TestCase

@@ -31,7 +31,7 @@ class CodeCoverageRepository
      * Constructor
      *
      * @param string $databaseFile
-     * @param string $sqlite
+     * @param string $sqliteClassName
      */
     public function __construct($databaseFile = null, $sqliteClassName = '\SQLite3')
     {
@@ -122,6 +122,11 @@ class CodeCoverageRepository
         }
     }
 
+    /**
+     * Instantiate SQLite3 object
+     *
+     * @return \SQLite3
+     */
     private function newSQLiteInstance()
     {
         $instance = new $this->sqliteClassName($this->databaseFile);
