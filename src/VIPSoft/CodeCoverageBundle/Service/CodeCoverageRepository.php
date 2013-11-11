@@ -8,7 +8,7 @@
 
 namespace VIPSoft\CodeCoverageBundle\Service;
 
-use VIPSoft\CodeCoverageBundle\Model\Aggregate;
+use VIPSoft\CodeCoverageCommon\Model\Aggregate;
 
 /**
  * Code coverage repository
