@@ -5,6 +5,7 @@
 
     <parameters>
         <parameter key="vipsoft.code_coverage.controller.code_coverage.class">VIPSoft\CodeCoverageBundle\Controller\CodeCoverageController</parameter>
+        <parameter key="vipsoft.code_coverage.driver.class">VIPSoft\CodeCoverageCommon\Driver</parameter>
         <parameter key="vipsoft.code_coverage.listener.request.class">VIPSoft\CodeCoverageBundle\Listener\RequestListener</parameter>
         <parameter key="vipsoft.code_coverage.service.repository.class">VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository</parameter>
     </parameters>
@@ -12,12 +13,16 @@
     <services>
         <service id="vipsoft.code_coverage.service.repository" class="%vipsoft.code_coverage.service.repository.class%" />
 
+        <service id="vipsoft.code_coverage.driver" class="%vipsoft.code_coverage.driver.class%" />
+
         <service id="vipsoft.code_coverage.controller.code_coverage" class="%vipsoft.code_coverage.controller.code_coverage.class%">
             <argument type="service" id="vipsoft.code_coverage.service.repository" />
+            <argument type="service" id="vipsoft.code_coverage.driver" on-invalid="null" />
         </service>
 
         <service id="vipsoft.code_coverage.listener.request" class="%vipsoft.code_coverage.listener.request.class%">
             <argument type="service" id="vipsoft.code_coverage.service.repository" />
+            <argument type="service" id="vipsoft.code_coverage.driver" on-invalid="null" />
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
         </service>
     </services>

@@ -9,6 +9,8 @@
 namespace VIPSoft\CodeCoverageBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
+use VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository;
+use VIPSoft\CodeCoverageCommon\Driver;
 
 /**
  * Code coverage controller
@@ -23,13 +25,20 @@ class CodeCoverageController
     private $repository;
 
     /**
+     * @var \VIPSoft\CodeCoverageCommon\Driver
+     */
+    private $driver;
+
+    /**
      * Constructor
      *
      * @param \VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository $repository
+     * @param \VIPSoft\CodeCoverageCommon\Driver                         $driver
      */
-    public function __construct($repository)
+    public function __construct(CodeCoverageRepository $repository, Driver $driver = null)
     {
         $this->repository = $repository;
+        $this->driver     = $driver;
     }
 
     /**
@@ -39,10 +48,7 @@ class CodeCoverageController
      */
     public function createAction()
     {
-        // this setting wasn't introduced until Xdebug 2.2
-        $ini = ini_get_all('xdebug', false);
-
-        if (isset($ini['xdebug.coverage_enable']) && ! $ini['xdebug.coverage_enable']) {
+        if ( ! $this->driver) {
             return new Response('', 503); // Service Unavailable
         }
 

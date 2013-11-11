@@ -11,6 +11,7 @@ namespace VIPSoft\CodeCoverageBundle\Listener;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository;
+use VIPSoft\CodeCoverageCommon\Driver;
 
 /**
  * Code coverage request listener
@@ -25,13 +26,20 @@ class RequestListener
     private $repository;
 
     /**
+     * @var \VIPSoft\CodeCoverageCommon\Driver
+     */
+    private $driver;
+
+    /**
      * Constructor
      *
      * @param \VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository $repository
+     * @param \VIPSoft\CodeCoverageCommon\Driver                         $driver
      */
-    public function __construct(CodeCoverageRepository $repository)
+    public function __construct(CodeCoverageRepository $repository, Driver $driver = null)
     {
         $this->repository = $repository;
+        $this->driver     = $driver;
     }
 
     /**
@@ -41,7 +49,9 @@ class RequestListener
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-        if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
+        if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()
+            || ! $this->driver
+        ) {
             return;
         }
 
@@ -51,12 +61,11 @@ class RequestListener
             return;
         }
 
-        xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);
+        $driver = $this->driver;
+        $driver->start();
 
-        register_shutdown_function(function () use ($repository) {
-            $coverage = xdebug_get_code_coverage();
-
-            xdebug_stop_code_coverage(true);
+        register_shutdown_function(function () use ($repository, $driver) {
+            $coverage = $driver->stop();
 
             $repository->addCoverage($coverage);
         });

@@ -21,12 +21,6 @@ class RequestListenerTest extends TestCase
 {
     public function testOnKernelRequestWhenSubRequest()
     {
-        $proxy = $this->getMock('VIPSoft\Test\FunctionProxy');
-        $proxy->expects($this->never())
-              ->method('invokeFunction');
-
-        $this->getMockFunction('xdebug_start_code_coverage', $proxy);
-
         $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
                       ->disableOriginalConstructor()
                       ->getMock();
@@ -36,18 +30,16 @@ class RequestListenerTest extends TestCase
 
         $repository = $this->getMock('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository');
 
-        $listener = new RequestListener($repository);
+        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver');
+        $driver->expects($this->never())
+               ->method('start');
+
+        $listener = new RequestListener($repository, $driver);
         $listener->onKernelRequest($event);
     }
 
     public function testOnKernelRequestWhenRepositoryDisabled()
     {
-        $proxy = $this->getMock('VIPSoft\Test\FunctionProxy');
-        $proxy->expects($this->never())
-              ->method('invokeFunction');
-
-        $this->getMockFunction('xdebug_start_code_coverage', $proxy);
-
         $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
                       ->disableOriginalConstructor()
                       ->getMock();
@@ -60,17 +52,16 @@ class RequestListenerTest extends TestCase
                    ->method('isEnabled')
                    ->will($this->returnValue(false));
 
-        $listener = new RequestListener($repository);
+        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver');
+        $driver->expects($this->never())
+               ->method('start');
+
+        $listener = new RequestListener($repository, $driver);
         $listener->onKernelRequest($event);
     }
 
     public function testOnKernelRequest()
     {
-        $this->getMockFunction('xdebug_start_code_coverage');
-        $this->getMockFunction('xdebug_stop_code_coverage');
-        $this->getMockFunction('xdebug_get_code_coverage', function () {
-            return array();
-        });
         $this->getMockFunction('register_shutdown_function', function ($closure) {
             call_user_func($closure);
         });
@@ -89,7 +80,14 @@ class RequestListenerTest extends TestCase
         $repository->expects($this->once())
                    ->method('addCoverage');
 
-        $listener = new RequestListener($repository);
+        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver');
+        $driver->expects($this->once())
+               ->method('start');
+        $driver->expects($this->once())
+               ->method('stop')
+               ->will($this->returnValue(array()));
+
+        $listener = new RequestListener($repository, $driver);
         $listener->onKernelRequest($event);
     }
 }
