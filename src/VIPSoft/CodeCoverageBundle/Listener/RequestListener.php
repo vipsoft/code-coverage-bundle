@@ -9,6 +9,7 @@
 namespace VIPSoft\CodeCoverageBundle\Listener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository;
 use VIPSoft\CodeCoverageCommon\Driver;
@@ -51,23 +52,29 @@ class RequestListener
     {
         if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()
             || ! $this->driver
+            || ! $this->repository->isEnabled()
         ) {
             return;
         }
 
-        $repository = $this->repository;
+        $this->driver->start();
+    }
 
-        if ( ! $repository->isEnabled()) {
+    /**
+     * Stop collecting at the end of a request
+     *
+     * @param \Symfony\Component\HttpKernel\Event\PostResponseEvent $event
+     */
+    public function onKernelTerminate(PostResponseEvent $event)
+    {
+        if ( ! $this->driver
+            || ! $this->repository->isEnabled()
+        ) {
             return;
         }
 
-        $driver = $this->driver;
-        $driver->start();
+        $coverage = $this->driver->stop();
 
-        register_shutdown_function(function () use ($repository, $driver) {
-            $coverage = $driver->stop();
-
-            $repository->addCoverage($coverage);
-        });
+        $this->repository->addCoverage($coverage);
     }
 }

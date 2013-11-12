@@ -24,6 +24,7 @@
             <argument type="service" id="vipsoft.code_coverage.service.repository" />
             <argument type="service" id="vipsoft.code_coverage.driver" on-invalid="null" />
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+            <tag name="kernel.event_listener" event="kernel.terminate" method="onKernelTerminate" />
         </service>
     </services>
 
