@@ -10,6 +10,18 @@ Designed for use with the Behat code coverage extension.
 
 [![Build Status](https://travis-ci.org/vipsoft/code-coverage-bundle.png?branch=master)](https://travis-ci.org/vipsoft/code-coverage-bundle)
 
+## Configuration
+
+The bundle stores code coverage in the cache folder using SQLite.  The default
+database file name is "code_coverage.dbf".
+
+```
+vipsoft_codecoverage:
+    default: sql
+    sql:
+        database: code_coverage.dbf
+```
+
 ## See Also
 
 [Code Coverage Extension](https://github.com/vipsoft/code-coverage-extension)

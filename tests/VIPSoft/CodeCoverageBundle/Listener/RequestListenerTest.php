@@ -27,7 +27,9 @@ class RequestListenerTest extends TestCase
               ->method('getRequestType')
               ->will($this->returnValue(HttpKernelInterface::SUB_REQUEST));
 
-        $repository = $this->getMock('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository');
+        $repository = $this->getMockBuilder('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
 
         $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver');
         $driver->expects($this->never())
@@ -46,7 +48,9 @@ class RequestListenerTest extends TestCase
               ->method('getRequestType')
               ->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
 
-        $repository = $this->getMock('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository');
+        $repository = $this->getMockBuilder('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
         $repository->expects($this->once())
                    ->method('isEnabled')
                    ->will($this->returnValue(false));
@@ -68,7 +72,9 @@ class RequestListenerTest extends TestCase
               ->method('getRequestType')
               ->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
 
-        $repository = $this->getMock('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository');
+        $repository = $this->getMockBuilder('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
         $repository->expects($this->once())
                    ->method('isEnabled')
                    ->will($this->returnValue(true));
@@ -87,7 +93,9 @@ class RequestListenerTest extends TestCase
                       ->disableOriginalConstructor()
                       ->getMock();
 
-        $repository = $this->getMock('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository');
+        $repository = $this->getMockBuilder('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
         $repository->expects($this->once())
                    ->method('isEnabled')
                    ->will($this->returnValue(false));
@@ -106,7 +114,9 @@ class RequestListenerTest extends TestCase
                       ->disableOriginalConstructor()
                       ->getMock();
 
-        $repository = $this->getMock('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository');
+        $repository = $this->getMockBuilder('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
         $repository->expects($this->once())
                    ->method('isEnabled')
                    ->will($this->returnValue(true));

@@ -30,12 +30,13 @@ class CodeCoverageRepository
     /**
      * Constructor
      *
-     * @param string $databaseFile
+     * @param array  $databaseConfig
+     * @param string $databaseDirectory
      * @param string $sqliteClassName
      */
-    public function __construct($databaseFile = null, $sqliteClassName = '\SQLite3')
+    public function __construct(array $databaseConfig, $databaseDirectory, $sqliteClassName = '\SQLite3')
     {
-        $this->databaseFile    = $databaseFile ?: __DIR__ . '/../Resources/private/coverage.dbf';
+        $this->databaseFile    = $databaseDirectory . '/' . $databaseConfig['database'];
         $this->sqliteClassName = $sqliteClassName;
     }
 

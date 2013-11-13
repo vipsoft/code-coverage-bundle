@@ -19,7 +19,9 @@ class CodeCoverageControllerTest extends TestCase
 {
     public function testCreateActionWhenXdebugDisabled()
     {
-        $repository = $this->getMock('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository');
+        $repository = $this->getMockBuilder('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
 
         $controller = new CodeCoverageController($repository, null);
 
@@ -30,7 +32,9 @@ class CodeCoverageControllerTest extends TestCase
 
     public function testCreateActionWhenRepositoryFails()
     {
-        $repository = $this->getMock('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository');
+        $repository = $this->getMockBuilder('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
         $repository->expects($this->once())
                    ->method('initialize')
                    ->will($this->returnValue(false));
@@ -46,7 +50,9 @@ class CodeCoverageControllerTest extends TestCase
 
     public function testCreateAction()
     {
-        $repository = $this->getMock('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository');
+        $repository = $this->getMockBuilder('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
         $repository->expects($this->once())
                    ->method('initialize')
                    ->will($this->returnValue(true));
@@ -62,7 +68,9 @@ class CodeCoverageControllerTest extends TestCase
 
     public function testReadAction()
     {
-        $repository = $this->getMock('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository');
+        $repository = $this->getMockBuilder('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
         $repository->expects($this->once())
                    ->method('getCoverage')
                    ->will($this->returnValue(array('X'=>array(1 => -1))));
@@ -80,7 +88,9 @@ class CodeCoverageControllerTest extends TestCase
 
     public function testDeleteAction()
     {
-        $repository = $this->getMock('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository');
+        $repository = $this->getMockBuilder('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
         $repository->expects($this->once())
                    ->method('drop');
 

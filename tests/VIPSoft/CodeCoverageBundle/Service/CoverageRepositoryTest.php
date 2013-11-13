@@ -19,7 +19,8 @@ use org\bovigo\vfs\vfsStream;
 class CodeCoverageRepositoryTest extends TestCase
 {
     private $vfsRoot;
-    private $databaseFile;
+    private $databaseConfig;
+    private $databaseDirectory;
     private $sqlite;
 
     public function __construct()
@@ -52,7 +53,11 @@ END_OF_SQLITE
 
         $this->vfsRoot = vfsStream::setup('privateDir');
 
-        $this->databaseFile = vfsStream::url('privateDir/coverage.dbf');
+        $this->databaseDirectory = vfsStream::url('privateDir');
+
+        $this->databaseConfig = array(
+            'database' => 'coverage.dbf',
+        );
     }
 
     protected function tearDown()
@@ -72,23 +77,23 @@ END_OF_SQLITE
             return null;
         };
 
-        $repository = new CodeCoverageRepository($this->databaseFile, $this->sqlite);
+        $repository = new CodeCoverageRepository($this->databaseConfig, $this->databaseDirectory, $this->sqlite);
 
         $this->assertTrue($repository->initialize());
     }
 
     public function testIsEnabledWhenFileExists()
     {
-        file_put_contents($this->databaseFile, 'data');
+        file_put_contents($this->databaseDirectory . '/coverage.dbf', 'data');
 
-        $repository = new CodeCoverageRepository($this->databaseFile, $this->sqlite);
+        $repository = new CodeCoverageRepository($this->databaseConfig, $this->databaseDirectory, $this->sqlite);
 
         $this->assertTrue($repository->isEnabled());
     }
 
     public function testIsEnabledWhenFileMissing()
     {
-        $repository = new CodeCoverageRepository($this->databaseFile, $this->sqlite);
+        $repository = new CodeCoverageRepository($this->databaseConfig, $this->databaseDirectory, $this->sqlite);
 
         $this->assertFalse($repository->isEnabled());
     }
@@ -104,7 +109,7 @@ END_OF_SQLITE
 
         \VIPSoft\CodeCoverageBundle\Test\SQLite3::$proxiedMethods['exec'] = array($proxy, 'invokeFunction');
 
-        $repository = new CodeCoverageRepository($this->databaseFile, $this->sqlite);
+        $repository = new CodeCoverageRepository($this->databaseConfig, $this->databaseDirectory, $this->sqlite);
         $repository->addCoverage($coverage);
     }
 
@@ -127,7 +132,7 @@ END_OF_SQLITE
             return $resultMock;
         };
 
-        $repository = new CodeCoverageRepository($this->databaseFile, $this->sqlite);
+        $repository = new CodeCoverageRepository($this->databaseConfig, $this->databaseDirectory, $this->sqlite);
 
         $this->assertEquals($coverage, $repository->getCoverage());
     }
@@ -138,7 +143,7 @@ END_OF_SQLITE
             return false;
         };
 
-        $repository = new CodeCoverageRepository($this->databaseFile, $this->sqlite);
+        $repository = new CodeCoverageRepository($this->databaseConfig, $this->databaseDirectory, $this->sqlite);
 
         $this->assertEquals(array(), $repository->getCoverage());
     }
@@ -151,9 +156,9 @@ END_OF_SQLITE
 
         $this->getMockFunction('unlink', $proxy);
 
-        file_put_contents($this->databaseFile, 'data');
+        file_put_contents($this->databaseDirectory . '/coverage.dbf', 'data');
 
-        $repository = new CodeCoverageRepository($this->databaseFile, $this->sqlite);
+        $repository = new CodeCoverageRepository($this->databaseConfig, $this->databaseDirectory, $this->sqlite);
         $repository->drop();
     }
 
@@ -165,7 +170,7 @@ END_OF_SQLITE
 
         $this->getMockFunction('unlink', $proxy);
 
-        $repository = new CodeCoverageRepository($this->databaseFile, $this->sqlite);
+        $repository = new CodeCoverageRepository($this->databaseConfig, $this->databaseDirectory, $this->sqlite);
         $repository->drop();
     }
 }

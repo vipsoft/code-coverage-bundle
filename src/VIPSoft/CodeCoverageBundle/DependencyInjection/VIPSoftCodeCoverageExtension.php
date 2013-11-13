@@ -27,5 +27,15 @@ class VIPSoftCodeCoverageExtension extends Extension
     {
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
-    }
+
+        if ( ! isset($configs['vipsoft_codecoverage']['sqlite'])) {
+            $configs['vipsoft_codecoverage']['sqlite'] = array();
+        }
+
+        $configuration = new Configuration();
+
+        $config = $this->processConfiguration($configuration, $configs);
+
+        $container->setParameter('vipsoft_codecoverage.sqlite', $config['sqlite']);
+   }
 }
