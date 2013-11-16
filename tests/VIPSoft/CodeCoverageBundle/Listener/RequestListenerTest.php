@@ -31,7 +31,7 @@ class RequestListenerTest extends TestCase
                            ->disableOriginalConstructor()
                            ->getMock();
 
-        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver');
+        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver\Stub');
         $driver->expects($this->never())
                ->method('start');
 
@@ -55,7 +55,7 @@ class RequestListenerTest extends TestCase
                    ->method('isEnabled')
                    ->will($this->returnValue(false));
 
-        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver');
+        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver\Stub');
         $driver->expects($this->never())
                ->method('start');
 
@@ -79,7 +79,7 @@ class RequestListenerTest extends TestCase
                    ->method('isEnabled')
                    ->will($this->returnValue(true));
 
-        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver');
+        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver\Stub');
         $driver->expects($this->once())
                ->method('start');
 
@@ -100,7 +100,7 @@ class RequestListenerTest extends TestCase
                    ->method('isEnabled')
                    ->will($this->returnValue(false));
 
-        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver');
+        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver\Stub');
         $driver->expects($this->never())
                ->method('stop');
 
@@ -123,7 +123,7 @@ class RequestListenerTest extends TestCase
         $repository->expects($this->once())
                    ->method('addCoverage');
 
-        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver');
+        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver\Stub');
         $driver->expects($this->once())
                ->method('stop')
                ->will($this->returnValue(array()));

@@ -17,7 +17,7 @@ use VIPSoft\TestCase;
  */
 class CodeCoverageControllerTest extends TestCase
 {
-    public function testCreateActionWhenXdebugDisabled()
+    public function testCreateActionWhenDriverDisabled()
     {
         $repository = $this->getMockBuilder('VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository')
                            ->disableOriginalConstructor()
@@ -39,7 +39,7 @@ class CodeCoverageControllerTest extends TestCase
                    ->method('initialize')
                    ->will($this->returnValue(false));
 
-        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver');
+        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver\Stub');
 
         $controller = new CodeCoverageController($repository, $driver);
 
@@ -57,7 +57,7 @@ class CodeCoverageControllerTest extends TestCase
                    ->method('initialize')
                    ->will($this->returnValue(true));
 
-        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver');
+        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver\Stub');
 
         $controller = new CodeCoverageController($repository, $driver);
 
@@ -75,7 +75,7 @@ class CodeCoverageControllerTest extends TestCase
                    ->method('getCoverage')
                    ->will($this->returnValue(array('X'=>array(1 => -1))));
 
-        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver');
+        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver\Stub');
 
         $controller = new CodeCoverageController($repository, $driver);
 
@@ -94,7 +94,7 @@ class CodeCoverageControllerTest extends TestCase
         $repository->expects($this->once())
                    ->method('drop');
 
-        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver');
+        $driver = $this->getMock('VIPSoft\CodeCoverageCommon\Driver\Stub');
 
         $controller = new CodeCoverageController($repository, $driver);
 
