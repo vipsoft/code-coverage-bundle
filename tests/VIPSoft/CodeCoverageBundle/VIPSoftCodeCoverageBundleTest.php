@@ -30,4 +30,14 @@ class VIPSoftCodeCoverageBundleTest extends TestCase
 
         $this->assertEquals('VIPSoftCodeCoverageBundle', $bundle->getName());
     }
+
+    public function testBuild()
+    {
+        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $container->expects($this->once())
+                  ->method('addCompilerPass');
+
+        $bundle = new VIPSoftCodeCoverageBundle();
+        $bundle->build($container);
+    }
 }

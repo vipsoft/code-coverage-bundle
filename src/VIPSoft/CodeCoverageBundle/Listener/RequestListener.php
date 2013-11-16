@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository;
-use VIPSoft\CodeCoverageCommon\Driver;
+use PHP_CodeCoverage_Driver as DriverInterface;
 
 /**
  * Code coverage request listener
@@ -27,7 +27,7 @@ class RequestListener
     private $repository;
 
     /**
-     * @var \VIPSoft\CodeCoverageCommon\Driver
+     * @var DriverInterface
      */
     private $driver;
 
@@ -35,9 +35,9 @@ class RequestListener
      * Constructor
      *
      * @param \VIPSoft\CodeCoverageBundle\Service\CodeCoverageRepository $repository
-     * @param \VIPSoft\CodeCoverageCommon\Driver                         $driver
+     * @param DriverInterface                                            $driver
      */
-    public function __construct(CodeCoverageRepository $repository, Driver $driver = null)
+    public function __construct(CodeCoverageRepository $repository, DriverInterface $driver = null)
     {
         $this->repository = $repository;
         $this->driver     = $driver;
